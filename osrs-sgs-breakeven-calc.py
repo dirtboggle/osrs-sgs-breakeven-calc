@@ -25,7 +25,7 @@ def calculate_break_even(damage, prayer_level, potion_cost, sgs_price):
 
 # User inputs or assumed values
 player_prayer_level = 99
-current_potion_cost = 1000  # Cost of one 4-dose Prayer Potion
+current_potion_cost = 10000  # Cost of one 4-dose Prayer Potion
 current_sgs_price = 38000000  # Current GE price of Saradomin Godsword
 standard_max_hit = 65 # Max hit with SGS on standard attacks. Use https://tools.runescape.wiki/osrs-dps/
 standard_accuracy = .9631 # Accuracy with SGS off on standard attacks. Use https://tools.runescape.wiki/osrs-dps/
