@@ -53,4 +53,4 @@ number_of_specials = math.ceil(required_damage / special_average_hit)
 required_time = number_of_specials / 2 * 150 # 2 specials per attack energy, attack energy replinishes every 150 seconds with lightbearer
 
 print(f"Number of special attacks: {number_of_specials}")
-print(f"Time to restore all specials: {required_time} seconds")
+print(f"Time to restore all specials: {required_time / 3600 } hours")
