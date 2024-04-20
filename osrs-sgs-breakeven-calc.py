@@ -6,7 +6,6 @@ player_prayer_level = 92
 current_potion_cost = 10000  # Cost of one 4-dose Prayer Potion
 current_sgs_price = 38000000  # Current GE price of Saradomin Godsword
 standard_max_hit = 65 # Max hit with SGS on standard attacks, including Super Strength potion and Piety. Use https://tools.runescape.wiki/osrs-dps/
-standard_accuracy = .9631 # Accuracy with SGS on standard attacks, including Piety. Use https://tools.runescape.wiki/osrs-dps/
 standard_attack_roll = 26512 # Attack roll with SGS on standard attacks, including Piety. Use https://tools.runescape.wiki/osrs-dps/
 npc_defense_roll = 19992 # NPC Defense roll. Use https://tools.runescape.wiki/osrs-dps/
 
@@ -33,9 +32,11 @@ if standard_attack_roll > npc_defense_roll:
 else:
     hit_chance = standard_attack_roll / (2 * (npc_defense_roll + 1))       
 
-special_average_hit = math.floor(((special_max_hit - 1) / 2) * hit_chance) # will lose the -1 in (special_max_hit - 1) once zero's have been removed from game
-number_of_specials = math.ceil(required_damage / special_average_hit)
+special_average_damage = special_max_hit * hit_chance / 2 # Calculate the damage output. Formula from https://oldschool.runescape.wiki/w/Damage_per_second/Melee#Step_six:_Calculate_the_hit_chance
+number_of_specials = math.ceil(required_damage / special_average_damage)
 required_time = number_of_specials / 2 * 150 # 2 special attacks per energy bar, per 150 seconds because attack energy replinishes 150 seconds with lightbearer
+
+
 
 print(f"Number of special attacks: {number_of_specials}")
 print(f"Time to restore all specials: {required_time / 3600 } hours")
