@@ -7,6 +7,8 @@ current_potion_cost = 10000  # Cost of one 4-dose Prayer Potion
 current_sgs_price = 38000000  # Current GE price of Saradomin Godsword
 standard_max_hit = 65 # Max hit with SGS on standard attacks, including Super Strength potion and Piety. Use https://tools.runescape.wiki/osrs-dps/
 standard_accuracy = .9631 # Accuracy with SGS on standard attacks, including Piety. Use https://tools.runescape.wiki/osrs-dps/
+standard_attack_roll = 26512 # Attack roll with SGS on standard attacks, including Piety. Use https://tools.runescape.wiki/osrs-dps/
+npc_defense_roll = 19992 # NPC Defense roll. Use https://tools.runescape.wiki/osrs-dps/
 
 # 1% Trading tax of the SGS
 tax_sgs = current_sgs_price / 100
@@ -20,15 +22,18 @@ prayer_per_dose = math.floor(player_prayer_level / 4 + 7)
 required_damage = ((tax_sgs / current_potion_cost) * (prayer_per_dose * 4)) * 4
 print(f"SGS Special Attack damage required to offset GE tax : {required_damage}")
 
-# Calculate Special DPS
+
+# Apply SGS special attack bonuses
 special_max_hit = math.floor(standard_max_hit * 1.10) # max hit increased by 10%, rounded to lowest integer
+standard_attack_roll = 2 * standard_attack_roll # double accuracy
 
-if (standard_accuracy * 2) >= 1.00: # accuracy doubled and equals 100% if greater than 100%
-    special_accuracy = 1.00
+# Calculate hit chance. Formula from https://oldschool.runescape.wiki/w/Damage_per_second/Melee#Step_six:_Calculate_the_hit_chance
+if standard_attack_roll > npc_defense_roll:
+    hit_chance = 1 - (npc_defense_roll + 2) / (2 * (standard_attack_roll + 1))
 else:
-    special_accuracy = standard_accuracy * 2 # accuracy doubled
+    hit_chance = standard_attack_roll / (2 * (npc_defense_roll + 1))       
 
-special_average_hit = math.floor(((special_max_hit + 1) / 2) * special_accuracy)
+special_average_hit = math.floor(((special_max_hit - 1) / 2) * hit_chance) # will lose the -1 in (special_max_hit - 1) once zero's have been removed from game
 number_of_specials = math.ceil(required_damage / special_average_hit)
 required_time = number_of_specials / 2 * 150 # 2 special attacks per energy bar, per 150 seconds because attack energy replinishes 150 seconds with lightbearer
 
